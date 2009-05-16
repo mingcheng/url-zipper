@@ -7,6 +7,11 @@
  * @link   http://www.gracecode.com/
  */
 
+function __autoload($className) {
+    $file = realpath('./server/') . DIRECTORY_SEPARATOR . $className . '.inc.php';
+    if (file_exists($file)) include_once $file;
+}
+
 /**
  * 安全获取 GET/POST 的参数
  *

@@ -11,6 +11,8 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2009-05-16
+ *     改写程序结构、优化代码并加入更多的服务商 API
  *
  * [+] 2008-08-05
  *     初始化版本
@@ -18,18 +20,10 @@
 
 require_once 'common.inc.php';
 
-function __autoload($className) {
-    $file = realpath('./server/') . DIRECTORY_SEPARATOR . $className . '.inc.php';
-    if (file_exists($file)) include_once $file;
-}
-
-$server_list = array (
-    'bit_ly', 'cli_gs', 'is_gd', 'kl_am', 
-    'poprl', 'short_ie', 'snipr_com', 'tr_im', 
-);
-$url = urldecode(getRequest('url', null, 'get'));
-
-if (!$url || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i', $url)) {
+// 需要请求的服务列表
+$server_list = array ('bit_ly', 'cli_gs', 'is_gd', 'kl_am', 'poprl', 'short_ie', 'snipr_com', 'tr_im');
+$url = urldecode(getRequest('url', '', 'get'));
+if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i', $url)) {
     if (getRequest('api', false, 'get')) {
         header('Content-type: text/javascript');
         die('{"error": "request empty"}');
@@ -37,7 +31,7 @@ if (!$url || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*(
 } else {
     $server_result = array();
     foreach($server_list as $server) {
-        $server_api = new $server(true, 2000);
+        $server_api = new $server(true, 2000); // 超时时间
         $result = $server_api->short($url);
         if (!empty($result)) $server_result[$server] = trim($result);
     }
@@ -55,234 +49,140 @@ if (!$url || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*(
         }
     }
 }
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Url Zipper - Gracecode.com</title>
+        <title>Url Zipper - 批量网址压缩工具 - Gracecode.com</title>
         <meta name="keywords" content="URL 压缩,URL 简化" />
         <meta name="description" content="URL 压缩器，简短 URL 的长度" />
-        <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://rss.gracecode.com" />
+        <link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://feed.gracecode.com/gracecode/" />
         <meta name="author" content="手气不错" />
         <link rel="icon" type="image/x-icon" href="http://www.gracecode.com/favicon.ico" />
         <link rel="stylesheet" href="http://assets.taobaocdn.com/tbsp/tbsp.css" type="text/css" media="screen" />
-        <style type="text/css">
-            h1 {font-size: 18px; font-weight: bold;}
-            p {margin: 10px 0px;}
-            body {
-                background: url(http://www.gracecode.com/usr/themes/gracecode/images/bg_plant.jpg) no-repeat top right;
-            }
-            legend {display: none;}
-            textarea {width: 800px; height: 100px; font-family: sans-serif; font-size: 16px;}
-            textarea:focus, input:focus {background: #ffc;}
-            form {font-size: 14px;}
-            input[type=submit]{font-size: 16px;}
-
-            input.result {
-                width: 798px;
-                font-size: 18px;
-                height: 25px;
-                line-height: 25px;
-                padding: 2px;
-                margin-bottom: 5px;
-                border: 1px solid #999;
-            }
-
-            input.best {
-                width: 794px;
-                border: 3px solid #555;
-            }
-
-            input.isgd {
-                background: url(logo_is_gd.png) no-repeat center right;
-            }
-
-            input.snipr {
-                background: url(logo_snipr_com.png) no-repeat center right;
-            }
-
-            input.tweetburner {
-                background: url(logo_tweetburner_com.png) no-repeat center right;
-            }
-
-            .error {
-                border: 1px solid red;
-                background: yellow;
-                padding: 3px;
-                margin: 0px 5px;
-            }
-            .error:hover {
-                cursor: pointer;
-            }
-
-            p.addZipper {
-                width: 200px;
-                height: 45px;
-                line-height: 45px;
-                font-size: 24px;
-                background: #ffc;
-                border: 1px dotted #555;
-                text-align: center;
-                font-family:arial;
-                font-weight:bold;
-            }
-
-            p.addZipper a:link, p.addZipper a:visited {
-                display: block;
-                width: 200px;
-                height: 45px;
-                text-decoration: none;
-                color: black;
-                border: 0px;
-                margin: 0px;
-                text-indent: 0px;
-                padding: 0px;
-                margin: 0px;
-            }
-
-            p.addZipper a:hover {
-                border: 0px;
-                color: none;
-                background: none;
-            }
-        </style>
-        <script type="text/javascript" src="http://assets.taobaocdn.com/js/tbra/yui-base.js"></script>
-        <script type="text/javascript">
-            var Event = YAHOO.util.Event;
-            var Dom = YAHOO.util.Dom;
-
-            Event.onDOMReady(function() {
-                var input = Dom.getElementsByClassName('result', 'input', 'ark:result');
-                Event.on(input, 'click', function (e) {
-                    this.select();
-                    Event.stopEvent(e);
-                });
-
-                var callback = (function () {
-                    return {
-                        success: function (req) {
-                            try {
-                                var json = eval('(' + req.responseText + ')');
-                                if (json) {
-                                    this.show(json);
-                                }
-                                Dom.setStyle(Dom.get('ark:result'), 'display', '');
-                                Dom.setStyle(Dom.get('error'),  'display', 'none');
-                            } catch(e) {
-                                this.error(e);
-                            }
-                        },
-
-                        failure: function (req) {
-                            this.error('获取数据错误');
-                        },
-
-                        show: function (data) {
-                            if (data.error) {
-                                this.error(data.error);
-                                return;
-                            }
-                            this._set('isgd', data.is_gd || null);
-                            this._set('snipr', data.snipr_com || null);
-                            this._set('tweetburner', data.tweetburner_com || null);
-                        },
-
-                        _set: function(el, data) {
-                            el = Dom.get(el);
-                            if (el && data && data.match(/^http:\/\/./i)) {
-                                el.value = data;
-                                Dom.setStyle(el, 'display', '');
-                            } else {
-                                Dom.setStyle(el, 'display', 'none');
-                            }
-                        },
-
-                        error: function (message) {
-                            var box = Dom.get('error');
-                            if (!box) {
-                                var box = document.createElement('span');
-                                box.id = 'error';
-                                Dom.addClass(box, 'error');
-                                Event.on(box, 'click', function(e){
-                                        Dom.setStyle(this, 'display', 'none');
-                                });
-                                Dom.insertAfter(box, 'submit');
-                            }
-
-                            box.title = message;
-                            box.innerHTML = message;
-                            Dom.setStyle(box, 'display', '');
-                        },
-
-                        cache: false
-                    }
-                })();
-
-                Event.on('form', 'submit', function (e) {
-                    var url = Dom.get('url');
-                    if (!((url || 0).value || 0).length) {
-                        callback.error('请您复制/粘贴 URL 至输入框');
-                        url.focus();
-                    } else if (!url.value.match(/^http:\/\/./i)) {
-                        callback.error('请您输入正确的 URL 格式（http:// 开头）');
-                        url.focus();
-                    } else {
-                        var action = this.action + '?url=' + url.value + '&api=1';
-                        YAHOO.util.Connect.asyncRequest('GET', action, callback);
-                    }
-
-                    Event.stopEvent(e);
-                });
-
-                YAHOO.util.Connect.startEvent.subscribe(function () {
-                    Dom.get('submit').disabled = 'disabled';
-                });
-
-                YAHOO.util.Connect.completeEvent.subscribe(function () {
-                    Dom.get('submit').disabled = '';
-                });
-
-                <?php
-                    if (!$url) {
-                        echo "Dom.setStyle(Dom.get('ark:result'), 'display', 'none');";
-                    }
-                ?>
-            });
-        </script>
+        <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
     </head>
     <body>
         <div id="page">
-        <div id="cotnent">
-            <h1>Url Zipper - Url 压缩器</h1>
-            <fieldset>
-                <legend>Url Zipper</legend>
-                <form method="get" action="" id="form">
-                    <p><textarea name="url" id="url" rows="10" cols="100"><?php echo $url ?></textarea></p>
-                    <p><input type="submit" value="Zipper!" id="submit" /></p>
-                    <p id="ark:result">
-                        <?php
-                            if (!empty($server_result)) {
-                                foreach($server_result as $type => $result) {
-                                    printf('<input type="text" readonly="readonly" class="result %s" value="%s" />'."\n", $type, $result);
-                                }
+            <div id="cotnent">
+                <h1>Url Zipper - 批量网址压缩工具</h1>
+                <fieldset>
+                    <legend>Url Zipper</legend>
+                    <form method="get" action="/url_zipper/" id="form">
+                    <p><textarea name="url" id="url" rows="10" cols="100"><?php echo htmlentities($url);?></textarea></p>
+                        <div><input type="submit" value="Zipper!" id="submit" />
+<!--
+                        <span id="loading" class="finished rest">Loaing...</span>
+                        <div class="msg"><p class="error">错误信息error，比如：请正确选择省市区</p></div>
+-->
+                        </div>
+                    </form>
+                </fieldset>
+                <ul id="result">
+                    <?php 
+                        if (isset($server_result) && !empty($server_result)) {
+                            foreach ($server_result as $name => $value) {
+                                printf('<li><input type="text" readonly="readonly" class="result %s" value="%s" /></li>', $name, $value);
                             }
-                        ?>
+                        }
+                    ?>
+                </ul>
+                <h1>快捷方式</h1>
+                <div class="shortcut">
+                    <p style="width:450px;">如果您觉得这个工具好用，请将下面的按钮拖动到您的书签工具栏中。
+                    这样您以后就可以点击此按钮，自动压缩将您当前页面的 URL 地址。</p>
+                    <p class="preview"><img src="addZipper.png" alt="addZipper.png" title="将左边的按钮拖放到您的书签工具栏中" /></p>
+                    <p class="addZipper"><a 
+                        href="javascript:void(location.href='http://lab.gracecode.com/url_zipper/?url='+encodeURIComponent(location.href));">Zipper!</a></p>
+                    <h3>目前支持的服务接口</h3>
+                    <p id="support">
+                        <a href="http://bit.ly/" rel="nofollow"><img src="images/logo/bit_ly.png" /></a>
+                        <a href="http://is.gd/" rel="nofollow"><img src="images/logo/is_gd.png" /></a>
+                        <a href="http://cli.gs/" rel="nofollow"><img src="images/logo/cli_gs.jpg" /></a>
+                        <a href="http://kl.am/" rel="nofollow"><img src="images/logo/kl_am.png" /></a>
+                        <a href="http://snipr.com/" rel="nofollow"><img src="images/logo/snipr_com.png" /></a>
+                        <a href="http://poprl.com/" rel="nofollow"><img src="images/logo/poprl.jpg" /></a>
+                        <a href="http://short.ie/" rel="nofollow"><img src="images/logo/short_ie.png" /></a>
+                        <a href="http://tr.im/" rel="nofollow"><img src="images/logo/tr_im.png" /></a>
                     </p>
-                </form>
-            </fieldset>
-            <h1>Url Zipper</h1>
-              <p>如果您觉得这个工具好用，请将下面的按钮拖动到您的书签工具栏中。
-                这样您以后就可以点击此按钮，自动会将您当前页面的 URL 压缩。</p>
-              <p><img src="addZipper.png" alt="addZipper.png" title="将左边的按钮拖放到您的书签工具栏中"
-                 style="float: right; margin: 0px 25px;border: 1px solid #ccc;" /></p>
-              <p class="addZipper"><a 
-                    href="javascript:void(location.href='http://lab.gracecode.com/url_zipper/?url='+encodeURIComponent(location.href));">Zipper!</a></p>
-              <p><em>如您有任何的建议或者意见，请您登录
-                    <a href="http://www.gracecode.com">Gracecode.com</a> 联系我，谢谢。</em></p>
+                </div>
+                <p class="links"><a href="#">API</a> / <a href="#">更改历史</a> / <a href="http://www.gracecode.com/">Gracecode.com</a></h1>
             </div>
         </div>
-        </div>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                // 插入对应的节点
+                var loading = $(document.createElement('span')).attr('id', 'loading').css('visibility', 'hidden'), timer;
+                var error = $(document.createElement('div')).attr('class', 'msg').attr('id', 'error').html('<p class="error">.</p>').css('visibility', 'hidden');
+                $('#submit').after(error).after(loading);
+
+                // 表单提交事件
+                $('#form').submit(function(e) {
+                    if (!$('#form textarea').val().match(/^http:\/\//i)) {
+                        $('#form textarea').val('http://' + $('#form textarea').val());
+                    }
+
+                    var val = $('#form textarea').val();
+                    if (!val.replace(/(^\s*)|(\s*$)/g, "").length) {
+                        $('#form textarea').val('').focus();
+                        return false;
+                    }
+
+                    if (!val.match(/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i)) {
+                        $('#form textarea').focus();
+                        return false;
+                    }
+
+                    $.ajax({
+                        timeout: 15000, // 超时 15 秒
+                        url: $('#form').attr('action') + '?url=' + encodeURIComponent(val) + '&api=1', type: 'get',
+                        beforeSend: function() {
+                            if (timer) clearTimeout(timer);
+                            $('#submit').attr('disabled', 'disabled');
+                            $('#form textarea').attr('disabled', 'disabled');
+                            $(loading).css('visibility', '').removeAttr('class');
+                            $('#result').html('');
+                            $('#error').css('visibility', 'hidden');
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            $('#error p').html(textStatus);
+                            $('#error').css('visibility', '');
+                            $(loading).css('visibility', 'hidden').removeAttr('class');
+                            $('#submit').removeAttr('disabled');
+                            $('#form textarea').removeAttr('disabled').focus();
+                        },
+                        success: function(data) {
+                            $(loading).attr('class', 'finished');
+                            var data = eval('(' + data + ')');
+                            var html = [];
+                            for(var i in data) {
+                                html.push('<li><input type="text" readonly="readonly" class="result '+ i +'" value="' + data[i] + '" /></li>');
+                            }
+                            $('#result').html(html.join(''));
+
+                            timer = setTimeout(function() {
+                                $(loading).attr('class', 'rest');
+                            }, 5000);
+
+                            $('#error').css('visibility', 'hidden');
+                            $('#submit').removeAttr('disabled');
+                            $('#form textarea').removeAttr('disabled');
+                        },
+                    });
+                
+                    return false;
+                });
+
+                $('#result').click(function(e) {
+                    var target = e.target;
+                    if ('input' == target.nodeName.toLowerCase()) {
+                        $(target).select();
+                    }
+                    return false;
+                });
+            });
+        </script>
     </body>
 </html>
