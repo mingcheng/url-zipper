@@ -71,12 +71,7 @@ if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\'
                     <legend>Url Zipper</legend>
                     <form method="get" action="/url_zipper/" id="form">
                     <p><textarea name="url" id="url" rows="10" cols="100"><?php echo htmlentities($url);?></textarea></p>
-                        <div><input type="submit" value="Zipper!" id="submit" />
-<!--
-                        <span id="loading" class="finished rest">Loaing...</span>
-                        <div class="msg"><p class="error">错误信息error，比如：请正确选择省市区</p></div>
--->
-                        </div>
+                    <div><input type="submit" value="Zipper!" id="submit" /></div>
                     </form>
                 </fieldset>
                 <ul id="result">

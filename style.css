@@ -123,6 +123,7 @@ p.addZipper a:hover {
     border: 0px;
     color: none;
     background: none;
+    cursor: move;
 }
 
 .msg .error {
