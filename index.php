@@ -21,7 +21,7 @@
 require_once 'common.inc.php';
 
 // 需要请求的服务列表
-$server_list = array ('bit_ly', 'cli_gs', 'is_gd', 'kl_am', 'poprl', 'short_ie', 'snipr_com', 'tr_im');
+$server_list = array ('bit_ly', 'cli_gs', 'is_gd', /* 'kl_am', 'poprl', 'short_ie', */ 'snipr_com' /*, 'tr_im' */);
 $url = urldecode(getRequest('url', '', 'get'));
 if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i', $url)) {
     if (getRequest('api', false, 'get')) {
@@ -99,7 +99,11 @@ if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\'
                         <a href="http://snipr.com/" rel="nofollow"><img src="images/logo/snipr_com.png" /></a>
                         <a href="http://poprl.com/" rel="nofollow"><img src="images/logo/poprl.jpg" /></a>
                         <a href="http://short.ie/" rel="nofollow"><img src="images/logo/short_ie.png" /></a>
+<?php
+/*
                         <a href="http://tr.im/" rel="nofollow"><img src="images/logo/tr_im.png" /></a>
+ */
+?>
                     </p>
                 </div>
                 <p class="links"><a href="#">API</a> / <a href="#">更改历史</a> / <a href="http://www.gracecode.com/">Gracecode.com</a></h1>
