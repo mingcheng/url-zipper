@@ -81,6 +81,10 @@ input[type=submit]{
     background: url(images/logo/short_ie.png) no-repeat center right;
 }
 
+#result input.goo_gl {
+    background: url(images/logo/goo_gl.png) no-repeat center right;
+}
+
 #result input.tr_im {
     background: url(images/logo/tr_im.png) no-repeat center right;
 }

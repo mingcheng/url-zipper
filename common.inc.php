@@ -105,6 +105,7 @@ abstract class short_url
         }
     }
 
+
     protected function _get($request_url)
     {
         if ($this->_allow_url_fopen) {
@@ -127,8 +128,26 @@ abstract class short_url
     }
 
 
+    protected function _post($request_url, $params) {
+        curl_setopt_array($this->_handle, array(
+            CURLOPT_POST       => true,
+            CURLOPT_POSTFIELDS => $params,
+            CURLOPT_URL        => $request_url
+        ));
+
+        return curl_exec($this->_handle);
+    }
+
+
     public function getMessage()
     {
         return $this->_error;
+    }
+
+
+    function __destruct() {
+        if ($this->handle) {
+            curl_close($this->handle);
+        }
     }
 }
