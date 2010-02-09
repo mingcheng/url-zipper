@@ -57,6 +57,10 @@ input[type=submit]{
     background: url(images/logo/bit_ly.png) no-repeat center right;
 }
 
+#result input.j_mp {
+    background: url(images/logo/j_mp.png) no-repeat center right;
+}
+
 #result input.is_gd {
     background: url(images/logo/is_gd.png) no-repeat center right;
 }

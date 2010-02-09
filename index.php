@@ -11,6 +11,9 @@
  * @change
  *     [+]new feature  [*]improvement  [!]change  [x]bug fix
  *
+ * [+] 2010-02-00
+ *     增加 goo.gl 、j.mp 短域名服务
+ *
  * [+] 2009-05-16
  *     改写程序结构、优化代码并加入更多的服务商 API
  *
@@ -21,7 +24,7 @@
 require_once 'common.inc.php';
 
 // 需要请求的服务列表
-$server_list = array ('bit_ly', /* 'cli_gs', */ 'is_gd', 'goo_gl', /*'kl_am', 'poprl', 'short_ie', 'snipr_com', */ 'tr_im');
+$server_list = array ('bit_ly', 'j_mp', /* 'cli_gs', */ 'is_gd', 'goo_gl', /*'kl_am', 'poprl', 'short_ie', 'snipr_com', */ 'tr_im');
 $url = urldecode(getRequest('url', '', 'get'));
 if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i', $url)) {
     if (getRequest('api', false, 'get')) {
@@ -93,6 +96,7 @@ if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\'
                     <h3>目前支持的服务接口</h3>
                     <p id="support">
                         <a href="http://bit.ly/" rel="nofollow"><img src="images/logo/bit_ly.png" /></a>
+                        <a href="http://j.mp/" rel="nofollow"><img src="images/logo/j_mp.png" /></a>
                         <a href="http://goo.gl/" rel="nofollow"><img src="images/logo/goo_gl.png" /></a>
                         <a href="http://is.gd/" rel="nofollow"><img src="images/logo/is_gd.png" /></a>
 <?php 
