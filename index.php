@@ -24,7 +24,7 @@
 require_once 'common.inc.php';
 
 // 需要请求的服务列表
-$server_list = array ('bit_ly', 'j_mp', /* 'cli_gs', */ 'is_gd', 'goo_gl', /*'kl_am', 'poprl', 'short_ie', 'snipr_com', */ 'tr_im');
+$server_list = array ('bit_ly', /* 'cli_gs', */ 'is_gd', 'goo_gl', 'j_mp', 'kl_am', /* 'poprl', 'short_ie', */ 'snipr_com', 'tr_im');
 $url = urldecode(getRequest('url', '', 'get'));
 if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i', $url)) {
     if (getRequest('api', false, 'get')) {
@@ -97,15 +97,15 @@ if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\'
                     <p id="support">
                         <a href="http://bit.ly/" rel="nofollow"><img src="images/logo/bit_ly.png" /></a>
                         <a href="http://j.mp/" rel="nofollow"><img src="images/logo/j_mp.png" /></a>
+                        <a href="http://kl.am/" rel="nofollow"><img src="images/logo/kl_am.png" /></a>
                         <a href="http://goo.gl/" rel="nofollow"><img src="images/logo/goo_gl.png" /></a>
+                        <a href="http://snipr.com/" rel="nofollow"><img src="images/logo/snipr_com.png" /></a>
                         <a href="http://is.gd/" rel="nofollow"><img src="images/logo/is_gd.png" /></a>
 <?php 
 /*
-                        <a href="http://cli.gs/" rel="nofollow"><img src="images/logo/cli_gs.jpg" /></a>
-                        <a href="http://kl.am/" rel="nofollow"><img src="images/logo/kl_am.png" /></a>
-                        <a href="http://snipr.com/" rel="nofollow"><img src="images/logo/snipr_com.png" /></a>
-                        <a href="http://poprl.com/" rel="nofollow"><img src="images/logo/poprl.jpg" /></a>
                         <a href="http://short.ie/" rel="nofollow"><img src="images/logo/short_ie.png" /></a>
+                        <a href="http://cli.gs/" rel="nofollow"><img src="images/logo/cli_gs.jpg" /></a>
+                        <a href="http://poprl.com/" rel="nofollow"><img src="images/logo/poprl.jpg" /></a>
  */
 ?>
                         <a href="http://tr.im/" rel="nofollow"><img src="images/logo/tr_im.png" /></a>
@@ -188,5 +188,8 @@ if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\'
                 });
             });
         </script>
+        <div style="width:1px;hegith:1px;overflow:hidden;display:none;">
+            <img src="images/loading.gif" /> <img src="images/finish.gif" /> <img src="images/rest.gif" />
+        </div>
     </body>
 </html>

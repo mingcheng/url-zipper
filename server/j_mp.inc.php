@@ -11,7 +11,7 @@
 class j_mp extends short_url {
     protected $api   = 'http://api.j.mp/shorten?version=2.0.1&longUrl=%s&login=%s&apiKey=%s';
     protected $login = 'feelinglucky';
-    protected $key   = 'R_bed493816e5673a217d5b73f93ae5ef5';
+    protected $key   = 'R_b93bfd6e643469fa623cd9c7f92bb9c2';
 
     public function short($url) {
         $result = json_decode($this->_get(sprintf($this->api, urlencode($url), $this->login, $this->key)), true);

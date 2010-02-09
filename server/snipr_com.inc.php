@@ -11,10 +11,14 @@
  */
 
 class snipr_com extends short_url {
-    protected $api = 'http://snipr.com/site/snip?r=simple&link=%s';
+    protected $api       = 'http://snipr.com/site/getsnip';
+    protected $snipapi   = 'ab52da1ce580bbe3e241c079125a12f1';
+    protected $snipuser  = 'feelinglucky';
 
-    public function short($url) {
-        $result = $this->_get(sprintf($this->api, urlencode($url)));
+    public function short($sniplink) {
+        $params = sprintf('sniplink=%s&snipuser=%s&snipapi=%s&snipformat=simple',
+            urlencode($sniplink), urlencode($this->snipuser), urlencode($this->snipapi));
+        $result = $this->_post($this->api, $params);
         return empty($result) ? '' : $result;
     }
 }

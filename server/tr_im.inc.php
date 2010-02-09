@@ -8,10 +8,9 @@
  */
 
 class tr_im extends short_url {
-    protected $api = 'http://api.tr.im/api/trim_url.json?url=%s';
+    protected $api = 'http://api.tr.im/v1/trim_simple?url=%s';
 
     public function short($url) {
-        $result = json_decode($this->_get(sprintf($this->api, urlencode($url))), true);
-        return $result['url'] ? $result['url'] : '';
+        return $this->_get(sprintf($this->api, urlencode($url)));
     }
 }
