@@ -188,7 +188,7 @@ if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\'
                 });
             });
         </script>
-        <div style="width:1px;hegith:1px;overflow:hidden;display:none;">
+        <div style="display:none;">
             <img src="images/loading.gif" /> <img src="images/finish.gif" /> <img src="images/rest.gif" />
         </div>
     </body>
