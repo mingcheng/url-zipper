@@ -146,7 +146,7 @@ abstract class short_url
 
 
     function __destruct() {
-        if ($this->handle) {
+        if (@$this->handle) {
             curl_close($this->handle);
         }
     }
