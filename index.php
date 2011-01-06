@@ -29,7 +29,7 @@ require_once 'common.inc.php';
 // 需要请求的服务列表
 $server_list = array ('bit_ly', /* 'cli_gs', */ 'is_gd', 'goo_gl', 'j_mp', /* 'kl_am', 'poprl', 'short_ie',  'snipr_com', 'tr_im'*/);
 $url = urldecode(getRequest('url', '', 'get'));
-if (empty($url) || !preg_match('/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i', $url)) {
+if (empty($url) || !preg_match('/^https?:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i', $url)) {
     if (getRequest('api', false, 'get')) {
         header('Content-type: text/javascript');
         die('{"error": "request empty"}');
