@@ -6,7 +6,7 @@ jQuery(function($) {
 
     // 表单提交事件
     $('#form').submit(function(e) {
-        if (!$('#form textarea').val().match(/^http:\/\//i)) {
+        if (!$('#form textarea').val().match(/^https?:\/\//i)) {
             $('#form textarea').val('http://' + $('#form textarea').val());
         }
 
@@ -16,7 +16,7 @@ jQuery(function($) {
             return false;
         }
 
-        if (!val.match(/^http:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i)) {
+        if (!val.match(/^https?:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]\':+!]*([^<>\"\"])*$/i)) {
             $('#form textarea').focus();
             return false;
         }
