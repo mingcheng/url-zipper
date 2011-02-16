@@ -1,13 +1,12 @@
 = 批量压缩 URL =
 
-线上工具参见：[[http://lab.gracecode.com/url-zipperjo]]
+线上工具参见：[[http://lab.gracecode.com/url-zipper/]]
+
+目前支持的服务接口： bit.ly j.mp goo.gl is.gd
 
 == 更新 ==
 
-
-== 常见问题 ==
-
+参见 index.php 文件
 
 
-
-// vim: set et sw=4 ts=4 sts=4 fdm=marker ft=creole ff=unix fenc=utf8 nobomb:
+{{{// vim: set et sw=4 ts=4 sts=4 fdm=marker ft=creole ff=unix fenc=utf8 nobomb: }}}
