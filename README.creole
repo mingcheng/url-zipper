@@ -2,7 +2,8 @@
 
 线上工具参见：[[http://lab.gracecode.com/url-zipper/]]
 
-目前支持的服务接口： bit.ly j.mp goo.gl is.gd
+目前支持的服务接口： [[http://bit.ly|bit.ly]]、[[http://j.mp/|j.mp]]、
+[[http://goog.gl/|goo.gl]]、[[http://is.gd/|is.gd]] 。
 
 == 更新 ==
 
