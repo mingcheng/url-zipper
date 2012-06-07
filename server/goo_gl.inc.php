@@ -131,7 +131,6 @@ class goo_gl extends short_url {
         $params = sprintf('user=%s&url=%s&auth_token=%s', urlencode($this->user), urlencode($url), urlencode($this->generateToken($url)));
         try {
             $result = $this->_post($this->api, $params);
-            var_dump($result);
             $result = json_decode($result);
             return $result->short_url;
         } catch (Exception $e) {
