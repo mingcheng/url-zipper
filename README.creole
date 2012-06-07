@@ -1,13 +1,14 @@
-= 批量压缩 URL =
+= 在线批量压缩 URL =
 
-线上工具参见：[[http://lab.gracecode.com/url-zipper/]]
+线上工具参见：[[http://graceco.de/url-zipper/]]
 
-目前支持的服务接口： [[http://bit.ly|bit.ly]]、[[http://j.mp/|j.mp]]、
+目前支持的服务接口：[[http://t.cn|t.cn（新浪微博）]]、 [[http://bit.ly|bit.ly]]、[[http://j.mp/|j.mp]]、
 [[http://goog.gl/|goo.gl]]、[[http://is.gd/|is.gd]] 。
 
 == 更新 ==
 
-参见 index.php 文件
+参见 index.php 文件，感谢国家
 
 
 {{{// vim: set et sw=4 ts=4 sts=4 fdm=marker ft=creole ff=unix fenc=utf8 nobomb: }}}
+
