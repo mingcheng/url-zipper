@@ -103,7 +103,7 @@ if (empty($url) || !preg_match('/^https?:\/\/[\w|\d]+\.[\w|\d]+[\/=\?%\-&_~`@[\]
                     这样您以后就可以点击此按钮，自动压缩将您当前页面的 URL 地址。</p>
                     <p class="preview"><img src="addZipper.png" alt="addZipper.png" title="将左边的按钮拖放到您的书签工具栏中" /></p>
                     <p class="addZipper"><a 
-                        href="javascript:void(location.href='http://lab.gracecode.com/url-zipper/?url='+encodeURIComponent(location.href));">Zipper!</a></p>
+                        href="javascript:void(location.href='http://graceco.de/url-zipper/?url='+encodeURIComponent(location.href));">Zipper!</a></p>
                     <h3>目前支持的服务接口</h3>
                     <p id="support">
                         <a href="http://weibo.cn/" rel="nofollow"><img src="images/logo/weibo.png" /></a>
